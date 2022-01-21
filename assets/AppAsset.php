@@ -8,6 +8,9 @@
 namespace app\assets;
 
 use yii\web\AssetBundle;
+use yii\bootstrap\BootstrapAsset;
+use yii\web\JqueryAsset;
+use yii\web\YiiAsset;
 
 /**
  * Main application asset bundle.
@@ -25,7 +28,8 @@ class AppAsset extends AssetBundle
     public $js = [
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap4\BootstrapAsset',
+        JqueryAsset::class,
+        YiiAsset::class,
+        BootstrapAsset::class,
     ];
 }

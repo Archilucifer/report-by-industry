@@ -1,5 +1,7 @@
 <?php
 
+use kartik\grid\Module;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -10,6 +12,12 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+    ],
+
+    'modules' => [
+        'gridview' => [
+            'class' => Module::class
+        ],
     ],
     'components' => [
         'request' => [
@@ -25,6 +33,10 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
