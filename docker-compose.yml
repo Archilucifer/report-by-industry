@@ -1,0 +1,17 @@
+version: "3"
+services:
+  php:
+    image: yiisoftware/yii2-php:7.4-apache
+    volumes:
+      - ./:/app:delegated
+    ports:
+      - '8000:80'
+  db:
+    image: mysql
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./docker/mysql/init.sql:/data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - '3306:3306'
