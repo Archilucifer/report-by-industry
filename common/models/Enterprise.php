@@ -1,5 +1,8 @@
 <?php
 
+namespace common\models;
+
+use Yii;
 
 /**
  * Class Enterprise
@@ -29,7 +32,7 @@ class Enterprise extends \yii\db\ActiveRecord
             ['email', 'email'],
             [
                 'industry', 'exist', 'skipOnError' => true,
-                'targetClass' => Industry::class,
+                'targetClass' => SubIndustry::class,
                 'targetAttribute' => ['industry' => 'id']
             ],
         ];
@@ -41,13 +44,13 @@ class Enterprise extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('common', 'ID'),
-            'owner' => Yii::t('common', 'Owner'),
-            'industry' => Yii::t('common', 'Industry'),
-            'inn' => Yii::t('common', 'Inn'),
-            'address' => Yii::t('common', 'Address'),
-            'phone' => Yii::t('common', 'Phone number'),
-            'email' => Yii::t('common', 'Email address'),
+            'id' => 'ID',
+            'owner' =>'Owner',
+            'industry' => 'Industry',
+            'inn' => 'Inn',
+            'address' => 'Address',
+            'phone' => 'Phone number',
+            'email' => 'Email address',
         ];
     }
 
