@@ -12,15 +12,23 @@ $this->params['breadcrumbs'][] = $this->title;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="form-group">
-        <?= Html::a(
-            'Create',
-            ['/merchants/create'],
-            ['class' => 'btn btn-success']
-        ) ?>
-    </div>
+<div class="form-group">
+    <?= Html::a(
+        'Create Industry',
+        ['/industry/create'],
+        ['class' => 'btn btn-success']
+    ) ?>
+</div>
+
+<div class="form-group">
+    <?= Html::a(
+        'Create Sub Industry',
+        ['/industry/create-sub'],
+        ['class' => 'btn btn-success']
+    ) ?>
+</div>
 
 <?= GridView::widget(
     [
@@ -36,26 +44,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'attribute' => 'name',
-        [
-            'class' => ExpandRowColumn::class,
-            'value' => static function ($model, $key, $index, $column) {
-                return GridView::ROW_COLLAPSED;
-            },
-            'detail' => static function (Industry $model) {
-                return Yii::$app->controller->renderPartial(
-                    'sub-industries',
-                    [
-                        'dataProvider' => new ActiveDataProvider(
-                            [
-                                'query' => $model->getSubIndustries(),
-                            ]
-                        )
-                    ]
-                );
-            },
-            'headerOptions' => ['class' => 'kartik-sheet-style'],
+            [
+                'class' => ExpandRowColumn::class,
+                'value' => static function ($model, $key, $index, $column) {
+                    return GridView::ROW_COLLAPSED;
+                },
+                'detail' => static function (Industry $model) {
+                    return Yii::$app->controller->renderPartial(
+                        '/sub-industry/index',
+                        [
+                            'dataProvider' => new ActiveDataProvider(
+                                [
+                                    'query' => $model->getSubIndustries(),
+                                ]
+                            )
+                        ]
+                    );
+                },
+                'headerOptions' => ['class' => 'kartik-sheet-style'],
+            ],
         ],
-    ],
     ]
 )
 ?>

@@ -2,9 +2,8 @@
 
 namespace common\models;
 
-use common\models\SubIndustry;
-use Yii;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * Class Industry
@@ -29,7 +28,7 @@ class Industry extends \yii\db\ActiveRecord
     }
 
     /**
-    * @inheritdoc
+     * @inheritdoc
      */
     public function attributeLabels(): array
     {
@@ -63,5 +62,15 @@ class Industry extends \yii\db\ActiveRecord
     public function getSubIndustries(): ActiveQuery
     {
         return $this->hasMany(SubIndustry::class, ['main_industry' => 'id']);
+    }
+
+    public static function getIndustriesList(): array
+    {
+        return self::find()->select(
+            [
+                new Expression('CONCAT(`name`, \' (\', id, \')\')'),
+                'id'
+            ]
+        )->asArray()->indexBy('id')->orderBy(['id' => SORT_ASC])->column();
     }
 }

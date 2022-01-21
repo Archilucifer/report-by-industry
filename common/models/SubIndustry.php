@@ -2,12 +2,16 @@
 
 namespace common\models;
 
+use yii\db\ActiveQuery;
+use yii\db\Expression;
+
 /**
  * Class SubIndustry
  *
  * @property integer $id
  * @property string $name
  * @property integer $main_industry
+ * @property Industry $industries
  */
 class SubIndustry extends \yii\db\ActiveRecord
 {
@@ -38,8 +42,8 @@ class SubIndustry extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Industry Name',
-            'main_industry' => 'Main Industry Name',
+            'name' => 'Sub industry name',
+            'main_industry' => 'Main industry name',
         ];
     }
 
@@ -89,5 +93,20 @@ class SubIndustry extends \yii\db\ActiveRecord
     public function setMainIndustry(int $main_industry)
     {
         $this->main_industry = $main_industry;
+    }
+
+    public function getIndustries(): ActiveQuery
+    {
+        return $this->hasOne(Industry::class, ['id' => 'main_industry']);
+    }
+
+    public static function getIndustriesList(): array
+    {
+        return self::find()->select(
+            [
+                new Expression('CONCAT(`name`, \' (\', id, \')\')'),
+                'id'
+            ]
+        )->asArray()->indexBy('id')->orderBy(['id' => SORT_ASC])->column();
     }
 }
