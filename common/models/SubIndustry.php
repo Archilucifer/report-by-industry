@@ -1,5 +1,7 @@
 <?php
 
+namespace common\models;
+
 /**
  * Class SubIndustry
  *
@@ -11,7 +13,7 @@ class SubIndustry extends \yii\db\ActiveRecord
 {
     public static function tableName(): string
     {
-        return '{{%sub_industry}}';
+        return '{{%sub_industries}}';
     }
 
     public function rules(): array
@@ -35,9 +37,9 @@ class SubIndustry extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('common', 'ID'),
-            'name' => Yii::t('common', 'Industry Name'),
-            'main_industry' => Yii::t('common', 'Main Industry Name'),
+            'id' => 'ID',
+            'name' => 'Industry Name',
+            'main_industry' => 'Main Industry Name',
         ];
     }
 

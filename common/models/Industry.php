@@ -1,5 +1,11 @@
 <?php
 
+namespace common\models;
+
+use common\models\SubIndustry;
+use Yii;
+use yii\db\ActiveQuery;
+
 /**
  * Class Industry
  *
@@ -10,7 +16,7 @@ class Industry extends \yii\db\ActiveRecord
 {
     public static function tableName(): string
     {
-        return '{{%industry}}';
+        return '{{%industries}}';
     }
 
     public function rules(): array
@@ -28,8 +34,8 @@ class Industry extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('common', 'ID'),
-            'name' => Yii::t('common', 'Industry Name'),
+            'id' => 'ID',
+            'name' => 'Industry Name',
         ];
     }
 
@@ -52,5 +58,10 @@ class Industry extends \yii\db\ActiveRecord
     public function setName(string $name)
     {
         $this->name = $name;
+    }
+
+    public function getSubIndustries(): ActiveQuery
+    {
+        return $this->hasMany(SubIndustry::class, ['main_industry' => 'id']);
     }
 }
