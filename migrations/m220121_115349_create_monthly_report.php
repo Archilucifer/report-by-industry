@@ -20,7 +20,7 @@ class m220121_115349_create_monthly_report extends Migration
             'average_salary' => $this->decimal(20, 4)->notNull(),
             'taxes_paid_amount' => $this->decimal(20, 4)->notNull(),
             'energy_charges' => $this->decimal(20, 4),
-            'provider' => $this->decimal(20, 4),
+            'provider' => $this->string(),
         ]);
     }
 
