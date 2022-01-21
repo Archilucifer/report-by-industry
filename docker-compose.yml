@@ -1,17 +1,26 @@
 version: "3"
+
+networks:
+  custom-network:
+    driver: bridge
+
 services:
   php:
     image: yiisoftware/yii2-php:7.4-apache
+    working_dir: /app
     volumes:
-      - ./:/app:delegated
+      - ./:/app
     ports:
       - '8000:80'
+    networks:
+      - custom-network
   db:
     image: mysql
-    command: --init-file /data/application/init.sql
-    volumes:
-      - ./docker/mysql/init.sql:/data/application/init.sql
+    command: --authentication_policy=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: reports
+    expose:
+      - '3306'
     ports:
       - '3306:3306'
