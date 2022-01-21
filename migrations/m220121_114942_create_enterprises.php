@@ -19,6 +19,7 @@ class m220121_114942_create_enterprises extends Migration
             'owner' => $this->string()->notNull(),
             'industry' => $this->integer()->notNull(),
             'inn' => $this->string(),
+            'head' => $this->string(),
             'address' => $this->string(),
             'phone' => $this->string(),
             'email' => $this->string(),
