@@ -1,16 +1,20 @@
 <?php
 
+namespace common\models;
+
+use yii\db\ActiveRecord;
 
 /**
  * Class MonthlyReport
  *
  * @property integer $id
+ * @property integer $industry
  * @property integer $workers
  * @property string $average_salary
  * @property string $taxes_paid_amount
  * @property string $energy_charges
  */
-class MonthlyReport extends \yii\db\ActiveRecord
+class MonthlyReport extends ActiveRecord
 {
     public static function tableName(): string
     {
@@ -20,9 +24,43 @@ class MonthlyReport extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['id','workers'], 'integer'],
-            [['average_salary', 'taxes_paid_amount','energy_charges','number']],
+            [['id', 'industry', 'workers'], 'integer'],
+            [['average_salary', 'taxes_paid_amount', 'energy_charges'], 'number'],
             ['provider', 'string', 'max' => 255],
+            [
+                'provider',
+                'required',
+                'when' => static function (self $model) {
+                    return $model->energy_charges !== null;
+                }
+            ],
+            /**
+             * Формат взял как год-месяц, так как отчет вноситься раз в месяц за текущий месяц, в днях нет смысла
+             */
+            ['date', 'date', 'format' => 'php:Y-m'],
+
+            /**
+             * Делаем проверку на существование в базе отрасли,
+             * чтобы нельзя было загружать два отчета за одну отрасль и один месяц (если нужно будет корректировать, можно сделать на отдельной вьюхе)
+             */
+            [
+                'date',
+                'unique',
+                'when' => static function (self $model) {
+                    return $model::find()->where(['industry' => $model->industry])->exists();
+                }
+            ],
+            /**
+             * Привязываемся к подотраслям, так как отчет не может быть сформирован за всю отрасль разом,
+             * иначе невозможно будет сформировать отчет по подотраслям
+             */
+            [
+                'industry',
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => SubIndustry::class,
+                'targetAttribute' => ['industry' => 'id']
+            ],
         ];
     }
 
@@ -32,8 +70,8 @@ class MonthlyReport extends \yii\db\ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('common', 'ID'),
-            'name' => Yii::t('common', 'Industry Name'),
+            'id' => 'ID',
+            'name' => 'Industry Name',
         ];
     }
 

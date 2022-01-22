@@ -16,11 +16,13 @@ class m220121_115349_create_monthly_report extends Migration
     {
         $this->createTable(self::TABLE_NAME, [
             'id' => $this->primaryKey(),
+            'industry' => $this->integer()->notNull(),
             'workers' => $this->integer()->notNull(),
             'average_salary' => $this->decimal(20, 4)->notNull(),
             'taxes_paid_amount' => $this->decimal(20, 4)->notNull(),
             'energy_charges' => $this->decimal(20, 4),
             'provider' => $this->string(),
+            'date' => $this->string(),
         ]);
     }
 
