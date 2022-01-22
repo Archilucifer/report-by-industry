@@ -23,6 +23,11 @@ class IndustryColumn extends DataColumn
         if ($industry === null) {
             return Html::tag('span', Html::encode($industryId));
         }
+
+        /**
+         * Не стал делать отдельную вьюху для основных отраслей, потому как /views/industry/index.php и есть по сути их вьюха.
+         * Да и на них ничего не ссылается
+         */
         return Html::a(
             $industry->getName() . ' (' . $industry->getId() . ')',
             ['#', 'id' => $industry->getId()]

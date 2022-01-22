@@ -47,7 +47,7 @@ $this->beginPage() ?>
         $menuItems[] = [
             'label' => 'Reports',
             'items' => [
-                ['label' => 'SomeMonthlyReport', 'url' => ['/reports/index']],
+                ['label' => 'SomeMonthlyReport', 'url' => ['/reports/monthly']],
             ]
         ];
 
