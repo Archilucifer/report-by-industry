@@ -109,4 +109,29 @@ class SubIndustry extends \yii\db\ActiveRecord
             ]
         )->asArray()->indexBy('id')->orderBy(['id' => SORT_ASC])->column();
     }
+
+    public static function getListSubIndustriesWithIndustryId(): array
+    {
+        return self::find()
+            ->select(
+                [
+                    new Expression(
+                        'CONCAT('
+                        . Industry::tableName() . ' . name, \' (\', '
+                        . Industry::tableName() . '.id,\')\') as industry'
+                    ),
+                    new Expression(
+                        'GROUP_CONCAT(
+                    CONCAT(' . self::tableName() . '.id) ORDER BY '
+                        . self::tableName() . '.id ASC) as id'
+                    )
+                ]
+            )
+            ->joinWith('industries')
+            ->asArray()
+            ->indexBy(self::tableName() . '.id')
+            ->groupBy('industry')
+            ->orderBy(['industry' => SORT_ASC])
+            ->column();
+    }
 }
