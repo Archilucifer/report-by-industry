@@ -24,6 +24,14 @@ class m220121_114942_create_enterprises extends Migration
             'phone' => $this->string(),
             'email' => $this->string(),
         ]);
+
+        $this->addForeignKey(
+            'FK-enterprise-industry-id',
+            self::TABLE_NAME,
+            'industry',
+            '{{%sub_industries}}',
+            'id'
+        );
     }
 
     /**

@@ -24,6 +24,14 @@ class m220121_115349_create_monthly_report extends Migration
             'provider' => $this->string(),
             'date' => $this->string(),
         ]);
+
+        $this->addForeignKey(
+            'FK-monthly-report-industry-id',
+            self::TABLE_NAME,
+            'industry',
+            '{{%sub_industries}}',
+            'id'
+        );
     }
 
     /**
